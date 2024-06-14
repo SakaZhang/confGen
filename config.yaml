@@ -1,0 +1,15 @@
+
+up:
+  node:
+    - test7
+    - test8
+  dir: ttt
+  cache_disk: disk4/up
+io:
+  node:
+    - test3
+    - test4
+  dir: iotttt
+  env: zz
+  cache_disk: disk1
+  idc: zz
