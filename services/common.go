@@ -47,13 +47,13 @@ func getLastConf(service string) interface{} {
 	case "up":
 		var lastConf UpCsv
 		if err := csvToStruct(&lastConf, headerMap, lastRow); err != nil {
-			log.Fatalf("Error populating struct:", err)
+			log.Fatalf("up服务获取配置失败, 检查up.csv.\n%v", err)
 		}
 		return lastConf
 	case "io":
 		var lastConf IoCsv
 		if err := csvToStruct(&lastConf, headerMap, lastRow); err != nil {
-			log.Fatalf("Error populating struct:", err)
+			log.Fatalf("io服务获取配置失败, 检查up.csv.\n%v", err)
 		}
 		return lastConf
 	}
