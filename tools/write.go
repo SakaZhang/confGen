@@ -61,7 +61,6 @@ func writeToCSV(filepath string, data services.CsvWriteable) error {
 	}
 
 	for _, record := range records {
-		fmt.Println(record)
 		err := writer.Write(strings.Split(record, ","))
 		if err != nil {
 			return err

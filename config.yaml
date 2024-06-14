@@ -1,15 +1,16 @@
-
 up:
-  node:
-    - test7
-    - test8
-  dir: ttt
-  cache_disk: disk4/up
+  node:  # 不可缺省
+    - test1
+    - test2
+  dir: up # 可缺省, 默认获取up.csv中最后一条的值
+  pkg: test # 可缺省, 默认获取up.csv中最后一条的值
+  env: zz # 不可缺省
+  tag: "" # 可缺省, 默认为空
+  cache_disk: disk4/up # 可缺省, 默认获取up.csv中最后一条的值
+  idc: zz # 可缺省, 缺省时获取env的值
+
 io:
   node:
     - test3
     - test4
-  dir: iotttt
-  env: zz
-  cache_disk: disk1
-  idc: zz
+  env: test

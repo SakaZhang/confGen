@@ -48,13 +48,8 @@ func (u *UpCsv) UnmarshalYAML(value *yaml.Node) error {
 		Pkg:       lastConf.Pkg,
 		Env:       u.Env,
 		Tag:       u.Tag,
-		CacheDisk: u.Cache_disk,
-		Idc: func() string {
-			if u.Idc == "" {
-				return u.Env
-			}
-			return u.Idc
-		}(),
+		CacheDisk: lastConf.Cache_disk,
+		Idc:       u.Idc,
 	}
 	if err := value.Decode(aux); err != nil {
 		return fmt.Errorf("failed to decode YAML into auxiliary structure for UpCsv : %w", err)
@@ -66,7 +61,11 @@ func (u *UpCsv) UnmarshalYAML(value *yaml.Node) error {
 	u.Env = aux.Env
 	u.Tag = aux.Tag
 	u.Cache_disk = aux.CacheDisk
-	u.Idc = aux.Idc
+	if aux.Idc == "" {
+		u.Idc = aux.Env
+	} else {
+		u.Idc = aux.Idc
+	}
 
 	return nil
 }
