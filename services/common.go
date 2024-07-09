@@ -44,6 +44,12 @@ func getLastConf(service string) interface{} {
 	headerMap := parseCSVHeader(header)
 	// 这里比较麻烦, 因为作用域的问题, 写的很丑陋
 	switch service {
+	case "apiserver":
+		var lastConf ApiServerCsv
+		if err := csvToStruct(&lastConf, headerMap, lastRow); err != nil {
+			log.Fatalf("apiserver服务获取配置失败, 检查apiserver.csv.\n%v", err)
+		}
+		return lastConf
 	case "up":
 		var lastConf UpCsv
 		if err := csvToStruct(&lastConf, headerMap, lastRow); err != nil {
@@ -56,12 +62,72 @@ func getLastConf(service string) interface{} {
 			log.Fatalf("io服务获取配置失败, 检查up.csv.\n%v", err)
 		}
 		return lastConf
+	case "bdchecker":
+		var lastConf BdCheckerCsv
+		if err := csvToStruct(&lastConf, headerMap, lastRow); err != nil {
+			log.Fatalf("bdchecker服务获取配置失败, 检查bdchecker.csv.\n%v", err)
+		}
+		return lastConf
+	case "blackbox_exporter":
+		var lastConf BlackboxExporterCsv
+		if err := csvToStruct(&lastConf, headerMap, lastRow); err != nil {
+			log.Fatalf("blackbox_exporter服务获取配置失败, 检查blackbox_exporter.csv.\n%v", err)
+		}
+		return lastConf
+	case "blkmaster":
+		var lastConf BlkmasterCsv
+		if err := csvToStruct(&lastConf, headerMap, lastRow); err != nil {
+			log.Fatalf("blkmaster服务获取配置失败, 检查blkmaster.csv.\n%v", err)
+		}
+		return lastConf
+	case "blkmaster_exporter":
+		var lastConf BlkmasterExporterCsv
+		if err := csvToStruct(&lastConf, headerMap, lastRow); err != nil {
+			log.Fatalf("blkmaster_exporter服务获取配置失败, 检查blkmaster_exporter.csv.\n%v", err)
+		}
+		return lastConf
+	case "blkstg":
+		var lastConf BlkstgCsv
+		if err := csvToStruct(&lastConf, headerMap, lastRow); err != nil {
+			log.Fatalf("blkstg服务获取配置失败, 检查blkstg.csv.\n%v", err)
+		}
+		return lastConf
+	case "blkworker":
+		var lastConf BlkworkerCsv
+		if err := csvToStruct(&lastConf, headerMap, lastRow); err != nil {
+			log.Fatalf("blkworker服务获取配置失败, 检查blkworker.csv.\n%v", err)
+		}
+		return lastConf
+	case "confg":
+		var lastConf ConfgCsv
+		if err := csvToStruct(&lastConf, headerMap, lastRow); err != nil {
+			log.Fatalf("confg服务获取配置失败, 检查confg.csv.\n%v", err)
+		}
+		return lastConf
+	case "iorefresh":
+		var lastConf IorefreshCsv
+		if err := csvToStruct(&lastConf, headerMap, lastRow); err != nil {
+			log.Fatalf("iorefresh服务获取配置失败, 检查iorefresh.csv.\n%v", err)
+		}
+		return lastConf
+	case "kodobill":
+		var lastConf KodoBillCsv
+		if err := csvToStruct(&lastConf, headerMap, lastRow); err != nil {
+			log.Fatalf("kodoBill服务获取配置失败, 检查kodoBill.csv.\n%v", err)
+		}
+		return lastConf
+	case "kodo-consul":
+		var lastConf KodoConsulCsv
+		if err := csvToStruct(&lastConf, headerMap, lastRow); err != nil {
+			log.Fatalf("kodo-consul服务获取配置失败, 检查kodo-consul.csv.\n%v", err)
+		}
+		return lastConf
 	}
 
 	return nil
 }
 
-// ParseCSVHeader 工具函数, 解析csv文件的header
+// 工具函数, 解析csv文件的header
 func parseCSVHeader(header []string) map[string]int {
 	headerMap := make(map[string]int)
 	for i, h := range header {
@@ -71,7 +137,7 @@ func parseCSVHeader(header []string) map[string]int {
 	return headerMap
 }
 
-// PopulateStruct 工具函数, 将csv中的数据填充到对应服务结构体中
+// 工具函数, 将csv中的数据填充到对应服务结构体中
 func csvToStruct(v interface{}, headerMap map[string]int, record []string) error {
 	val := reflect.ValueOf(v).Elem()
 	for i := 0; i < val.NumField(); i++ {

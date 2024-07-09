@@ -2,13 +2,14 @@ package services
 
 import (
 	"fmt"
+	"github.com/go-playground/validator/v10"
 	"gopkg.in/yaml.v3"
 )
 
 type UpCsv struct {
 	BaseStruct
 	Tag        string `csv:"tag" yaml:"tag"`
-	Cache_disk string `csv:"cache_disk" yaml:"cache_disk" binding:"required"`
+	Cache_disk string `csv:"cache_disk" yaml:"cache_disk"`
 	Idc        string `csv:"idc" yaml:"idc"`
 }
 
@@ -33,8 +34,8 @@ func (u *UpCsv) UnmarshalYAML(value *yaml.Node) error {
 		return fmt.Errorf("failed to cast lastConf to UpCsv")
 	}
 
-	type Alias UpCsv // Create an alias to avoid recursion
-	aux := &struct {
+	/*	type Alias UpCsv // Create an alias to avoid recursion
+	 */aux := &struct {
 		Node      []string `yaml:"node"`
 		Dir       string   `yaml:"dir"`
 		Pkg       string   `yaml:"pkg"`
@@ -67,5 +68,7 @@ func (u *UpCsv) UnmarshalYAML(value *yaml.Node) error {
 		u.Idc = aux.Idc
 	}
 
-	return nil
+	validate := validator.New()
+	err := validate.Struct(u)
+	return err
 }

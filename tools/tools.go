@@ -7,8 +7,12 @@ import (
 
 // Config 存储配置文件中的配置信息并结合各服务中csv定义进行补全, 其中node字段为[]string类型
 type Config struct {
-	Up services.UpCsv `yaml:"up" csv:"up.csv"`
-	Io services.IoCsv `yaml:"io" csv:"io.csv"`
+	Up         services.UpCsv         `yaml:"up" csv:"up.csv"`
+	Io         services.IoCsv         `yaml:"io" csv:"io.csv"`
+	Blkmaster  services.BlkmasterCsv  `yaml:"blkmaster" csv:"blkmaster.csv"`
+	Blkstg     services.BlkstgCsv     `yaml:"blkstg" csv:"blkstg.csv"`
+	Apiserver  services.ApiServerCsv  `yaml:"apiserver" csv:"apiserver.csv"`
+	KodoConsul services.KodoConsulCsv `yaml:"kodo-consul" csv:"kodo-consul.csv"`
 }
 
 func GenConfFromCfgFile(cfgFile string) error {

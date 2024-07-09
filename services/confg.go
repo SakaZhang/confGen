@@ -6,11 +6,11 @@ import (
 	"gopkg.in/yaml.v3"
 )
 
-type BlkmasterExporterCsv struct {
+type ConfgCsv struct {
 	BaseStruct
 }
 
-func (u BlkmasterExporterCsv) ToCSV() ([]string, error) {
+func (u ConfgCsv) ToCSV() ([]string, error) {
 	var csv []string
 	for _, node := range u.Node {
 		u.BaseStruct.Node = []string{node}
@@ -23,11 +23,11 @@ func (u BlkmasterExporterCsv) ToCSV() ([]string, error) {
 	return csv, nil
 }
 
-func (u *BlkmasterExporterCsv) UnmarshalYAML(value *yaml.Node) error {
-	tmp := getLastConf("blkmaster_exporter")
-	lastConf, ok := tmp.(BlkmasterExporterCsv)
+func (u *ConfgCsv) UnmarshalYAML(value *yaml.Node) error {
+	tmp := getLastConf("confg")
+	lastConf, ok := tmp.(ConfgCsv)
 	if !ok {
-		return fmt.Errorf("failed to cast lastConf to BlkmasterExporterCsv")
+		return fmt.Errorf("failed to cast lastConf to ConfgCsv")
 	}
 
 	aux := &struct {
@@ -45,13 +45,13 @@ func (u *BlkmasterExporterCsv) UnmarshalYAML(value *yaml.Node) error {
 	if err := value.Decode(aux); err != nil {
 		return fmt.Errorf("failed to decode YAML into auxiliary structure for UpCsv : %w", err)
 	}
+
 	u.Node = aux.Node
 	u.Dir = aux.Dir
 	u.Pkg = aux.Pkg
 	u.Env = aux.Env
-
+	// 校验非缺省字段
 	validate := validator.New()
 	err := validate.Struct(u)
-
 	return err
 }

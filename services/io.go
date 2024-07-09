@@ -2,13 +2,14 @@ package services
 
 import (
 	"fmt"
+	"github.com/go-playground/validator/v10"
 	"gopkg.in/yaml.v3"
 )
 
 type IoCsv struct {
 	BaseStruct
 	Tag        string `csv:"tag" yaml:"tag"`
-	Cache_disk string `csv:"cache_disk" yaml:"cache_disk"`
+	Cache_disk string `csv:"cache_disk" yaml:"cache_disk" `
 	Idc        string `csv:"idc" yaml:"idc"`
 }
 
@@ -39,7 +40,7 @@ func (u *IoCsv) UnmarshalYAML(value *yaml.Node) error {
 		Pkg       string   `yaml:"pkg"`
 		Env       string   `yaml:"env"`
 		Tag       string   `yaml:"tag"`
-		CacheDisk string   `yaml:"cache_disk"` // 使用驼峰命名法
+		CacheDisk string   `yaml:"cache_disk"`
 		Idc       string   `yaml:"idc"`
 	}{
 		Node:      u.Node,
@@ -66,5 +67,8 @@ func (u *IoCsv) UnmarshalYAML(value *yaml.Node) error {
 		u.Idc = aux.Idc
 	}
 
-	return nil
+	// 校验非缺省字段
+	validate := validator.New()
+	err := validate.Struct(u)
+	return err
 }

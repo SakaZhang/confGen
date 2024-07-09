@@ -1,16 +1,52 @@
-up:
-  node:  # 不可缺省
-    - test1
-    - test2
-  dir: up # 可缺省, 默认获取up.csv中最后一条的值
-  pkg: test # 可缺省, 默认获取up.csv中最后一条的值
-  env: zz # 不可缺省
-  tag: "" # 可缺省, 默认为空
-  cache_disk: disk4/up # 可缺省, 默认获取up.csv中最后一条的值
-  idc: zz # 可缺省, 缺省时获取env的值
+#up:
+#  node:  # 不可缺省
+#    - test1
+#    - test2
+#  dir: # 可缺省, 默认获取up.csv中最后一条的值
+#  pkg: test # 可缺省, 默认获取up.csv中最后一条的值
+#  env: zz # 不可缺省
+#  tag: "" # 可缺省, 默认为空
+#  cache_disk: disk4/up # 可缺省, 默认获取up.csv中最后一条的值
+#  idc: zz # 可缺省, 缺省时获取env的值
+#
+#io:
+#  node:
+#    - test3
+#    - test4
+#  env: test
+#
+#blkstg:
+#  node:
+#    - test8
+#  env: test
+#  disk_count: 35
+#
+#blkmaster:
+#  node:
+#    - test9
+#    - test10
+#    - test11
+#  env: test
+#  IS_PRIMARY: test9
 
-io:
+kodo-consul:
   node:
-    - test3
-    - test4
+    - test12
+    - test13
+    - test14
+    - test15
+    - test16
+    - test17
+    - test18
   env: test
+  isserver:
+    - test12
+    - test13
+    - test14
+    - test15
+    - test16
+    - test17
+    - test18
+
+
+
